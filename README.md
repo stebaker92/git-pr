@@ -1,6 +1,9 @@
 # git-pr
 
-Create PR's on GitHub with ease from the command line
+Create PR's on GitHub with ease from the command line. Just run
+`pr` 
+or `git pr`
+from your shell (whilst in a git directory) to open your browser ready to create a pull request
 
 ## Setup (PowerShell)
 
