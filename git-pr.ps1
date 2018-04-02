@@ -6,7 +6,7 @@ if ($baseOverride -eq $null) {
     if ($base -eq $null) {
         Write-Host "Enter a base branch"
         $base = Read-Host 
-        if ($base -eq $Null) {
+        if ($base -eq $Null -or $base -eq "") {
             $base = "master"
         }
         git config git-pr.base $base
