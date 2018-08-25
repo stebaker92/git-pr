@@ -26,7 +26,7 @@ from your shell (whilst in a git directory) to open your browser ready to create
 git config --global alias.pr '!f() { powershell "C:/PATH-TO-GIT-PR/git-pr.ps1" ; }; f'
 ```
 
-## powershell setup
+## PowerShell setup
 
 Do the following to setup the `pr` alias
 
@@ -34,13 +34,10 @@ Do the following to setup the `pr` alias
 
 `Notepad $profile`
 
-### 2. Paste the following function into your profile
+### 2. Import the PowerShell module into your profile
 
 ``` PowerShell
-function pr() # Replace pr this with any alias you want to use
-{
-    & c:\PATH-TO-GIT-PR\git-pr.ps1
-}
+Import-Module C:\path-to-module\git-pr\git-pr.psm1
 ```
 
 ### 3. Reload powershell console or run the following
