@@ -47,6 +47,12 @@ function pr() # Replace pr this with any alias you want to use
 
 `. $profile`
 
+### Targetting other branches
+
+If you're working from a branch other then master (i.e. using a `develop` branch or a feature branch), set the `pr.base` config as follows:
+
+`git config git-pr.base develop` 
+
 ## git bash setup
 
 > TODO
