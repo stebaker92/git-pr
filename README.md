@@ -5,12 +5,18 @@ Create PR's on GitHub with ease from the command line.
 Currently GitHub and GitLab are supported
 
 
-## Usage
+## Usage & Functions
+
+### Pull Requests
 
 Just run
 `pr`
 or `git pr`
 from your shell (whilst in a git directory) to open your browser ready to create a pull request
+
+### Opening Repo in browser
+
+Just run `git-repo` to open the remote repository in your browser
 
 ## Setup
 
