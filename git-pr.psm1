@@ -1,3 +1,9 @@
+function git-repo() { 
+    $url = git remote get-url origin
+    Write-Output "Opening: $url"
+    Start-Process $url
+}
+
 function git-pr {
 
     $baseOverride = $args[0]
