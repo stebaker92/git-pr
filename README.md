@@ -18,6 +18,10 @@ from your shell (whilst in a git directory) to open your browser ready to create
 
 Just run `git-repo` to open the remote repository in your browser
 
+### Searching GitHub
+
+`github-search MySearchTerm`
+
 ## Setup
 
 [git alias Setup (`git pr`)](#git-setup)
