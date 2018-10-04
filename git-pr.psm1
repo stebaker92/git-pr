@@ -4,8 +4,11 @@ function git-repo() {
     Start-Process $url
 }
 
-function git-pr {
+function github-search() {
+    Start-Process "https://github.com/search?q=term&unscoped_q=$a"
+}
 
+function git-pr {
     $baseOverride = $args[0]
 
     $base = git config --get git-pr.base
