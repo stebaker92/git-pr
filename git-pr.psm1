@@ -52,18 +52,32 @@ function git-pr {
 
     $remoteWithoutRepo = ($split -join "/") + "/"
 
+    if ($origin.StartsWith("git@")) {
+        # Remove the username
+        $origin = $origin -replace ":", "/"
+
+        $origin = $origin -replace "git@", "https://";
+    }
+    
+    # Remove the .git suffix
+    $origin = $origin.TrimEnd("git")
+    $origin = $origin.TrimEnd(".")
+
+    "origin is $origin"
+
     if ($origin.Contains("://github") -eq $True) {
-        $url = $remoteWithoutRepo + $repo + "/compare/$base..." + $branch
+        $url = $origin + "/compare/$base..." + $branch
         #+ "?w=1" #w=1 removes whitespace
     }
     elseif ($origin.Contains("://gitlab") -eq $True) {
         "this is a gitlab repo"
-        $url = $remoteWithoutRepo + $repo + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=master"
+        $url = $origin + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=master"
     }
     else {
         Write-Error "$origin not supported"
         return;
     }
 
+    "Opening url $url"
     Start-Process $url
 }
