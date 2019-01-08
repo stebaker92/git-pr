@@ -22,12 +22,6 @@ Just run `git-repo` to open the remote repository in your browser
 
 `github-search MySearchTerm`
 
-## Setup
-
-[git alias Setup (`git pr`)](#git-setup)
-
-[PowerShell alias Setup (`pr`)](#powershell-setup)
-
 ## PowerShell alias setup
 
 Do the following to setup the `pr` alias
