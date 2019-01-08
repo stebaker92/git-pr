@@ -71,7 +71,7 @@ function git-pr {
     }
     elseif ($origin.Contains("://gitlab") -eq $True) {
         "this is a gitlab repo"
-        $url = $origin + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=master"
+        $url = $origin + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$base"
     }
     else {
         Write-Error "$origin not supported"
