@@ -73,6 +73,26 @@ function git-pr {
         "this is a gitlab repo"
         $url = $origin + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$base"
     }
+    elseif ($origin.Contains("azure") -eq $True) {
+        $url = $origin 
+
+        # Azure origin URL is different to Azure DevOps URL
+
+        # Before
+        # https://ssh.dev.azure.com/v3/$org/$project/$repo
+        
+        # After
+        # https://$org.visualstudio.com/$project/_git/$repo
+
+        $org = $url.split("/")[4]
+        $project = $url.split("/")[5]
+        $repo = $url.split("/")[6]
+        
+        $url = "https://$org.visualstudio.com/$project/_git/$repo/"
+
+        $suffix = "pullrequestcreate?sourceRef=$branch&targetRef=$base"
+        $url = $url + $suffix
+    }
     else {
         Write-Error "$origin not supported"
         return;
