@@ -93,6 +93,26 @@ function git-pr {
         $suffix = "pullrequestcreate?sourceRef=$branch&targetRef=$base"
         $url = $url + $suffix
     }
+    elseif ($origin.Contains("visualstudio") -eq $True) {
+        $url = $origin 
+
+        # Azure origin URL is different to Azure DevOps URL
+
+        # Before
+        # evest@vs-ssh.visualstudio.com:v3/evest/eVestor%20Agile/ClientPortalV2
+        
+        # After
+        # https://$org.visualstudio.com/$project/_git/$repo
+
+        $org = $url.split("/")[2].Replace(".visualstudio.com", "")
+        $project = $url.split("/")[4]
+        $repo = $url.split("/")[6]
+        
+        $url = "https://$org.visualstudio.com/$project/_git/$repo/"
+
+        $suffix = "pullrequestcreate?sourceRef=$branch&targetRef=$base"
+        $url = $url + $suffix
+    }
     else {
         Write-Error "$origin not supported"
         return;
