@@ -24,7 +24,7 @@ Just run `git-repo` to open the remote repository in your browser
 
 ## PowerShell alias setup
 
-Do the following to setup the `pr` alias
+Do the following to setup the `pr` alias (you'll currently need to clone this repo)
 
 ### 1. Open up your git profile
 
