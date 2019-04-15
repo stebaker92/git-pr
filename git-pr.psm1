@@ -1,5 +1,6 @@
 function git-repo() { 
-    $url = git remote get-url origin
+    $origin = git remote get-url origin
+    $url = git-pr-parse -origin $origin -repoOnly $true
     Write-Host "Opening: $url"
     Start-Process $url
 }
@@ -8,58 +9,23 @@ function github-search() {
     Start-Process "https://github.com/search?q=term&unscoped_q=$a"
 }
 
-function git-pr {
-    # Use write-host instead of Write Output so we don't pipe anything out 
-    $baseOverride = $args[0]
+function git-pr-parse
+{
+    Param
+    (
+        [string]$origin, [string]$branch, [string]$base, [bool]$repoOnly
+    )
 
-    $base = git config --get git-pr.base
+    write-host "origin: $origin"
+    write-host "base: $base"
+    write-host "branch: $branch"
 
-    if ($baseOverride -eq $null) {
-        if ($base -eq $null) {
-            Write-Host "Enter a base branch"
-            $base = Read-Host 
-            if ($base -eq $Null -or $base -eq "") {
-                $base = "master"
-            }
-            git config git-pr.base $base
-        }
-    }
-    else {
-        Write-Host "override detected"
-        Write-Host $baseOverride
-
-        git config git-pr.base $baseOverride
-        $base = $baseOverride
-    }
-
-    $branch = git symbolic-ref head --short
-
-    $repodir = git rev-parse --show-toplevel
-
-    $repo = Split-Path $repodir -Leaf
-
-    $origin = git remote get-url origin
-
-    if ($origin -eq $null) {
-        Write-Error "no origin found"
-        return;
-    }
-
-    # Remove the repo from the remote URL
-    $split = $origin.split("/")
-    $remoteWithoutRepoLength = $split.Length - 2;
-
-    $split = $split[0..$remoteWithoutRepoLength]
-
-    $remoteWithoutRepo = ($split -join "/") + "/"
-    
     # Remove the .git suffix
-    $origin = $origin.TrimEnd("git")
-    $origin = $origin.TrimEnd(".")
+    $origin = $origin -replace "\.git+$"
 
-    Write-Host "origin is $origin"
+    if ($origin.Contains("github") -eq $True) {
+        Write-Host "this is a github repo"
 
-    if ($origin.Contains("://github") -eq $True) {
         if ($origin.StartsWith("git@")) {
             # Remove the username
             $origin = $origin -replace ":", "/"
@@ -67,21 +33,28 @@ function git-pr {
             $origin = $origin -replace "git@", "https://";
         }
 
-        $url = $origin + "/compare/$base..." + $branch
+        if ($repoOnly -eq $true) {return $url}
+
+        $url = "$origin/compare/$base...$branch"
         #+ "?w=1" #w=1 removes whitespace
     }
-    elseif ($origin.Contains("://gitlab") -eq $True) {
+    elseif ($origin.Contains("gitlab.com") -eq $True) {
+        Write-Host "this is a gitlab repo"
+
         if ($origin.StartsWith("git@")) {
             # Remove the username
             $origin = $origin -replace ":", "/"
     
             $origin = $origin -replace "git@", "https://";
         }
+        
+        if ($repoOnly -eq $true) {return $url}
 
-        "this is a gitlab repo"
         $url = $origin + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$base"
     }
     elseif ($origin.Contains("visualstudio.com") -eq $True -or $origin.Contains("azure.com")) {
+        Write-Host "this is a github repo"
+
         # Azure DevOps has random remote formats so this is a little messy.
         
         if ($origin -match "^(\w+)(\@{1})") {
@@ -117,6 +90,8 @@ function git-pr {
 
         $url = "https://$org.visualstudio.com/$project/_git/$repo/"
 
+        if ($repoOnly -eq $true) {return $url}
+
         $suffix = "pullrequestcreate?sourceRef=$branch&targetRef=$base"
         $url = $url + $suffix
     }
@@ -124,8 +99,49 @@ function git-pr {
         Write-Error "$origin not supported"
         return;
     }
-    
+
+    return $url;
+}
+
+function git-pr {
+    $baseOverride = $args[0]
+
+    $base = git config --get git-pr.base
+
+    if ($baseOverride -eq $null) {
+        if ($base -eq $null) {
+            Write-Host "Enter a base branch"
+            $base = Read-Host 
+            if ($base -eq $Null -or $base -eq "") {
+                $base = "master"
+            }
+            git config git-pr.base $base
+        }
+    }
+    else {
+        Write-Host "override detected"
+        Write-Host $baseOverride
+
+        git config git-pr.base $baseOverride
+        $base = $baseOverride
+    }
+
+    $branch = git symbolic-ref head --short
+
+    $repodir = git rev-parse --show-toplevel
+
+    $repo = Split-Path $repodir -Leaf
+
+    $origin = git remote get-url origin
+
+    if ($origin -eq $null) {
+        Write-Error "no origin found"
+        return;
+    }
+
+    [string]$url = git-pr-parse $origin $branch $base
+
     Write-Host "Opening url $url"
 
-        Start-Process $url
+    Start-Process $url
 }

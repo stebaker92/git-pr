@@ -45,3 +45,6 @@ Import-Module C:\path-to-module\git-pr\git-pr.psm1
 If you're working from a branch other then master (i.e. using a `develop` branch or a feature branch), set the `pr.base` config as follows:
 
 `pr-base develop` 
+
+## Running Unit Tests
+run `Invoke-Pester .\tests.ps1`
