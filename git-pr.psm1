@@ -77,44 +77,44 @@ function git-pr {
     
             $origin = $origin -replace "git@", "https://";
         }
+
         "this is a gitlab repo"
         $url = $origin + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$base"
     }
-    elseif ($origin.Contains("azure") -eq $True) {
-        $url = $origin 
-
-        # Azure origin URL is different to Azure DevOps URL
-
-        # Before
-        # https://ssh.dev.azure.com/v3/$org/$project/$repo
+    elseif ($origin.Contains("visualstudio.com") -eq $True -or $origin.Contains("azure.com")) {
+        # Azure DevOps has random remote formats so this is a little messy.
         
-        # After
+        if ($origin -match "^(\w+)(\@{1})") {
+            # This is SSH
+
+            # Input URL format(s):
+            # git@ssh.dev.azure.com:v3/$org/$project/$repo
+            # $org@vs-ssh.visualstudio.com:v3/$org/$project/$repo
+
+            $url = $origin 
+
+            # Azure origin URL is sometimes different to Azure DevOps URL
+            
+            $org = $url.split("/")[1]
+            $project = $url.split("/")[2]
+            $repo = $url.split("/")[3]
+        }
+        else {
+            # This is HTTPS
+
+            # Input URL format:
+            # https://$org.visualstudio.com/DefaultCollection/$project/_git/$repo
+
+            $url = $origin 
+
+            $org = $url.split("/")[2].split(".")[0]
+            $project = $url.split("/")[4]
+            $repo = $url.split("/")[6]
+        }
+        
+        # Expected URL Format:
         # https://$org.visualstudio.com/$project/_git/$repo
 
-        $org = $url.split("/")[4]
-        $project = $url.split("/")[5]
-        $repo = $url.split("/")[6]
-        
-        $url = "https://$org.visualstudio.com/$project/_git/$repo/"
-
-        $suffix = "pullrequestcreate?sourceRef=$branch&targetRef=$base"
-        $url = $url + $suffix
-    }
-    elseif ($origin.Contains("visualstudio") -eq $True) {
-        $url = $origin 
-
-        # Azure origin URL is different to Azure DevOps URL
-
-        # Before
-        # evest@vs-ssh.visualstudio.com:v3/evest/eVestor%20Agile/ClientPortalV2
-        
-        # After
-        # https://$org.visualstudio.com/$project/_git/$repo
-
-        $org = $url.split("/")[2].Replace(".visualstudio.com", "")
-        $project = $url.split("/")[4]
-        $repo = $url.split("/")[6]
-        
         $url = "https://$org.visualstudio.com/$project/_git/$repo/"
 
         $suffix = "pullrequestcreate?sourceRef=$branch&targetRef=$base"
