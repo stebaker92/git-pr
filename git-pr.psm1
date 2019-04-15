@@ -51,25 +51,32 @@ function git-pr {
     $split = $split[0..$remoteWithoutRepoLength]
 
     $remoteWithoutRepo = ($split -join "/") + "/"
-
-    if ($origin.StartsWith("git@")) {
-        # Remove the username
-        $origin = $origin -replace ":", "/"
-
-        $origin = $origin -replace "git@", "https://";
-    }
     
     # Remove the .git suffix
     $origin = $origin.TrimEnd("git")
     $origin = $origin.TrimEnd(".")
 
-    "origin is $origin"
+    Write-Host "origin is $origin"
 
     if ($origin.Contains("://github") -eq $True) {
+        if ($origin.StartsWith("git@")) {
+            # Remove the username
+            $origin = $origin -replace ":", "/"
+    
+            $origin = $origin -replace "git@", "https://";
+        }
+
         $url = $origin + "/compare/$base..." + $branch
         #+ "?w=1" #w=1 removes whitespace
     }
     elseif ($origin.Contains("://gitlab") -eq $True) {
+        if ($origin.StartsWith("git@")) {
+            # Remove the username
+            $origin = $origin -replace ":", "/"
+    
+            $origin = $origin -replace "git@", "https://";
+        }
+        
         "this is a gitlab repo"
         $url = $origin + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$base"
     }
