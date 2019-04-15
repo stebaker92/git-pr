@@ -1,6 +1,6 @@
 function git-repo() { 
     $url = git remote get-url origin
-    Write-Output "Opening: $url"
+    Write-Host "Opening: $url"
     Start-Process $url
 }
 
@@ -9,6 +9,7 @@ function github-search() {
 }
 
 function git-pr {
+    # Use write-host instead of Write Output so we don't pipe anything out 
     $baseOverride = $args[0]
 
     $base = git config --get git-pr.base
@@ -24,8 +25,8 @@ function git-pr {
         }
     }
     else {
-        Write-Output "override detected"
-        Write-Output $baseOverride
+        Write-Host "override detected"
+        Write-Host $baseOverride
 
         git config git-pr.base $baseOverride
         $base = $baseOverride
@@ -76,7 +77,6 @@ function git-pr {
     
             $origin = $origin -replace "git@", "https://";
         }
-        
         "this is a gitlab repo"
         $url = $origin + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$base"
     }
@@ -124,7 +124,8 @@ function git-pr {
         Write-Error "$origin not supported"
         return;
     }
+    
+    Write-Host "Opening url $url"
 
-    "Opening url $url"
-    Start-Process $url
+        Start-Process $url
 }
