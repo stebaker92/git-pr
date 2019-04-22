@@ -2,8 +2,7 @@
 
 Create Pull Requests with ease from the command line.
 
-Currently only GitHub and GitLab are supported
-
+Currently only GitHub, GitLab and Azure DevOps are supported
 
 ## Usage & Functions
 
@@ -39,10 +38,11 @@ Import-Module C:\path-to-module\git-pr\git-pr.psm1
 ### 3. Reload powershell console or run the following
 
 `. $profile` or `RefreshEnv`
+If this doesn't work, you may need to restart your shell
 
 ### Setting the Target Branch
 
-If you're working from a branch other then master (i.e. using a `develop` branch or a feature branch), set the `pr.base` config as follows:
+If you're working from a branch other than master (i.e. using a `develop` branch or a feature branch), set the `pr.base` config as follows:
 
 `pr-base develop` 
 
