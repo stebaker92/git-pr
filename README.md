@@ -11,9 +11,9 @@ Currently only GitHub, GitLab and Azure DevOps are supported
 Just run
 `pr`
 or `git pr`
-from your shell (whilst in a git directory) to open your browser ready to create a pull request
+from your shell (whilst in a git directory) to open your browser ready to create a pull request, setting the source to the current branch and target to either `master` or the branch stored in the repo's git config
 
-### Opening Repo in browser
+### Opening the current repo in your browser
 
 Just run `git-repo` to open the remote repository in your browser
 
@@ -21,11 +21,11 @@ Just run `git-repo` to open the remote repository in your browser
 
 `github-search MySearchTerm`
 
-## PowerShell alias setup
+## PowerShell Alias Setup
 
 Do the following to setup the `pr` alias (you'll currently need to clone this repo)
 
-### 1. Open up your git profile
+### 1. Open up your PowerShell profile
 
 `Notepad $profile`
 
@@ -37,14 +37,15 @@ Import-Module C:\path-to-module\git-pr\git-pr.psm1
 
 ### 3. Reload powershell console or run the following
 
-`. $profile` or `RefreshEnv`
+`. $PROFILE` or `RefreshEnv`
 If this doesn't work, you may need to restart your shell
 
 ### Setting the Target Branch
 
-If you're working from a branch other than master (i.e. using a `develop` branch or a feature branch), set the `pr.base` config as follows:
+By default, the target branch will be `master` if you don't specify one. If you want to change & save a different target branch (i.e.  if you're working of a `develop` branch or a feature branch), set the `pr.base` config by running `git config git-pr.base my-branch
+` or changing your your repo's `.gitconfig` to the following:
 
-`pr-base develop` 
+`pr-base my-branch` 
 
 ## Running Unit Tests
 run `Invoke-Pester .\tests.ps1`
