@@ -48,4 +48,4 @@ By default, the target branch will be `master` if you don't specify one. If you 
 `pr-base my-branch` 
 
 ## Running Unit Tests
-run `Invoke-Pester .\tests.ps1`
+run `Invoke-Pester .\all-tests.ps1`

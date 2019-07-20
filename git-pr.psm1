@@ -33,7 +33,7 @@ function git-pr-parse
             $origin = $origin -replace "git@", "https://";
         }
 
-        if ($repoOnly -eq $true) {return $url}
+        if ($repoOnly -eq $true) {return $origin}
 
         $url = "$origin/compare/$base...$branch"
         #+ "?w=1" #w=1 removes whitespace
@@ -48,7 +48,7 @@ function git-pr-parse
             $origin = $origin -replace "git@", "https://";
         }
         
-        if ($repoOnly -eq $true) {return $url}
+        if ($repoOnly -eq $true) {return $origin}
 
         $url = $origin + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$base"
     }
