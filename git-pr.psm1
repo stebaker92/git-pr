@@ -53,9 +53,9 @@ function git-pr-parse
         $url = $origin + "/merge_requests/new?merge_request%5Bsource_branch%5D=$branch&merge_request%5Btarget_branch%5D=$base"
     }
     elseif ($origin.Contains("visualstudio.com") -eq $True -or $origin.Contains("azure.com")) {
-        Write-Host "this is a github repo"
+        Write-Host "this is an azure repo"
 
-        # Azure DevOps has random remote formats so this is a little messy.
+        # Azure DevOps has random remote formats so this gets a little messy.
         
         if ($origin -match "^(\w+)(\@{1})") {
             # This is SSH
@@ -72,15 +72,20 @@ function git-pr-parse
             $project = $url.split("/")[2]
             $repo = $url.split("/")[3]
         }
-        else {
+        elseif ($origin.StartsWith("http")) {
             # This is HTTPS
 
-            # Input URL format:
+            # Input URL formats can be :
             # https://$org.visualstudio.com/DefaultCollection/$project/_git/$repo
+            # https://org@dev.azure.com/org/project/_git/repo
 
             $url = $origin 
 
-            $org = $url.split("/")[2].split(".")[0]
+            if ($url -contains "@dev") {
+                $org = $url.split("/")[2].Split("@dev")[0]
+            } else {
+                $org = $url.split("/")[2].split(".")[0]
+            }
             $project = $url.split("/")[4]
             $repo = $url.split("/")[6]
         }
@@ -88,7 +93,8 @@ function git-pr-parse
         # Expected URL Format:
         # https://$org.visualstudio.com/$project/_git/$repo
 
-        $url = "https://$org.visualstudio.com/$project/_git/$repo/"
+
+        $url = "https://dev.azure.com/$org/$project/_git/$repo/"
 
         if ($repoOnly -eq $true) {return $url}
 

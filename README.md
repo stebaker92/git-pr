@@ -49,3 +49,5 @@ By default, the target branch will be `master` if you don't specify one. If you 
 
 ## Running Unit Tests
 run `Invoke-Pester .\all-tests.ps1`
+
+You will need to install [Pester](https://github.com/pester/Pester#installation) for running unit tests
