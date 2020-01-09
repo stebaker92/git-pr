@@ -81,11 +81,12 @@ function git-pr-parse
 
             $url = $origin 
 
-            if ($url -contains "@dev") {
+            if ($url -match "@dev") {
                 $org = $url.split("/")[2].Split("@dev")[0]
             } else {
                 $org = $url.split("/")[2].split(".")[0]
             }
+
             $project = $url.split("/")[4]
             $repo = $url.split("/")[6]
         }
