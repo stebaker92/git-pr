@@ -13,7 +13,10 @@ function git-pr-parse
 {
     Param
     (
-        [string]$origin, [string]$branch, [string]$base, [bool]$repoOnly
+        [string]$origin,
+        [string]$branch,
+        [string]$base,
+        [bool]$repoOnly
     )
 
     write-host "origin: $origin"
@@ -117,7 +120,7 @@ function git-pr {
 
     if ($baseOverride -eq $null) {
         if ($base -eq $null) {
-            Write-Host "Enter a base branch"
+            Write-Host "Enter a base branch [master]"
             $base = Read-Host 
             if ($base -eq $Null -or $base -eq "") {
                 $base = "master"
@@ -126,7 +129,7 @@ function git-pr {
         }
     }
     else {
-        Write-Host "override detected"
+        Write-Host "branch override detected"
         Write-Host $baseOverride
 
         git config git-pr.base $baseOverride
@@ -142,7 +145,7 @@ function git-pr {
     $origin = git remote get-url origin
 
     if ($origin -eq $null) {
-        Write-Error "no origin found"
+        Write-Error "no git origin found"
         return;
     }
 
