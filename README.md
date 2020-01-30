@@ -9,9 +9,9 @@ Currently only GitHub, GitLab and Azure DevOps are supported
 ### Pull Requests
 
 Just run
-`pr`
-or `git pr`
-from your shell (whilst in a git directory) to open your browser ready to create a pull request, setting the source to the current branch and target to either `master` or the branch stored in the repo's git config
+`git-pr`
+(or set up your own an alias!)
+from your shell (whilst in a git directory) to open your browser ready to create a pull request, setting the source to the current branch and target to either `master` or the branch stored in your repo's git config
 
 ### Opening the current repo in your browser
 
@@ -34,6 +34,9 @@ Do the following to setup the `pr` alias (you'll currently need to clone this re
 ``` PowerShell
 Import-Module C:\path-to-module\git-pr\git-pr.psm1
 ```
+
+### (Optional) Create your own alias
+Add something like this to your profile: `function pr() { git-pr }` 
 
 ### 3. Reload powershell console or run the following
 
