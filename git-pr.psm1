@@ -78,25 +78,31 @@ function git-pr-parse
         elseif ($origin.StartsWith("http")) {
             # This is HTTPS
 
-            # Input URL formats can be :
+            # Input URL formats can be either:
             # https://$org.visualstudio.com/DefaultCollection/$project/_git/$repo
             # https://org@dev.azure.com/org/project/_git/repo
 
             $url = $origin 
 
             if ($url -match "@dev") {
+                # dev.azure.com
                 $org = $url.split("/")[3]
+                $project = $url.split("/")[4]
+                $repo = $url.split("/")[6]
             } else {
+                # visualstudio.com
                 $org = $url.split("/")[2].split(".")[0]
+                $project = $url.split("/")[3]
+                $repo = $url.split("/")[5]
             }
-
-            $project = $url.split("/")[4]
-            $repo = $url.split("/")[6]
         }
+
+        write-host "org: $org"
+        write-host "project: $project"
+        write-host "repo: $repo"
         
         # Expected URL Format:
         # https://$org.visualstudio.com/$project/_git/$repo
-
 
         $url = "https://dev.azure.com/$org/$project/_git/$repo/"
 

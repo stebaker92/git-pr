@@ -4,7 +4,7 @@ $base = "master"
 Describe "VisualStudio" {
     Context "https" {
         it "should have correct url" {
-            $url = git-pr-parse "https://myorg.visualstudio.com/DefaultCollection/myproject/_git/myrepo" $branch $base
+            $url = git-pr-parse "https://myorg.visualstudio.com/myproject/_git/myrepo" $branch $base
             $url | should -be "https://dev.azure.com/myorg/myproject/_git/myrepo/pullrequestcreate?sourceRef=$branch&targetRef=$base"
         }
     }
@@ -20,7 +20,7 @@ Describe "VisualStudio" {
 Describe "Azure" {
     Context "http with @dev" { 
         it "should have correct url" {
-            $url = git-pr-parse "https://myorg@dev.dev.azure.com/myorg/myproject/_git/myrepo" $branch $base
+            $url = git-pr-parse "https://myorg@dev.azure.com/myorg/myproject/_git/myrepo" $branch $base
             $url | should -be "https://dev.azure.com/myorg/myproject/_git/myrepo/pullrequestcreate?sourceRef=$branch&targetRef=$base"
         }
     }
