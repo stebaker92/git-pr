@@ -1,7 +1,7 @@
 Import-Module ".\git-pr.psm1" -Force
 
-$branch = "feature1"
-$base = "master"
+$global:branch = "feature1"
+$global:base = "master"
 
 Describe "GitLab" {
     Context "https pr" {
