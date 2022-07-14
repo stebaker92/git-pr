@@ -1,3 +1,5 @@
+Import-Module ".\git-pr.psm1" -Force
+
 $branch = "feature1"
 $base = "master"
 
