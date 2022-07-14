@@ -6,11 +6,7 @@ $base = "master";
 Describe "GitHub" {
     Context "https pr" {
         it "should have correct url" {
-            write-host "branch inside test is $branch"
-            write-host "base inside test is $base"
-
-            $base = "master";
-            write-host "base inside test is $base"
+            write-host "branch inside test is $global:branch"
 
             $url = git-pr-parse "https://github.com/myuser/myrepo.git" $branch $base
             $url | should -be "https://github.com/myuser/myrepo/compare/$base...$branch"
