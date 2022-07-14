@@ -19,7 +19,7 @@ permissions:
 jobs:
   build:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: windows-latest # Module hasn't been tested on Linux yet!
     steps:
       - uses: actions/checkout@v3
 
