@@ -1,5 +1,5 @@
-$branch = "feature1"
-$base = "master"
+$global:branch = "feature1"
+$global:base = "master"
 
 Describe "VisualStudio" {
     Context "https" {

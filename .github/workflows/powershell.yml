@@ -1,0 +1,18 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: [ "ci", "master" ]
+    
+jobs:
+  build:
+    name: Invoke-Pester
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Tests
+        shell: pwsh
+        run: |
+          Find-Module pester -Repository psgallery | Install-Module
+          Invoke-Pester .\all-tests.ps1
