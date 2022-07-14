@@ -27,4 +27,4 @@ jobs:
         shell: pwsh
         run: |
           Find-Module pester -Repository psgallery | Install-Module
-          Invoke-Pester .\tests\github-tests.ps1
+          Invoke-Pester .\all-tests.ps1
