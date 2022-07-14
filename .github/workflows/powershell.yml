@@ -1,25 +1,13 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-#
-# https://github.com/microsoft/action-psscriptanalyzer
-# For more information on PSScriptAnalyzer in general, see
-# https://github.com/PowerShell/PSScriptAnalyzer
-
-name: PSScriptAnalyzer
+name: Unit Tests
 
 on:
   push:
-    branches: [ "ci" ]
+    branches: [ "ci", "master" ]
     
-permissions:
-  contents: read
-
 jobs:
   build:
-    name: Test
-    runs-on: ubuntu-latest # Module hasn't been tested on Linux yet!
+    name: Invoke-Pester
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
