@@ -1,0 +1,30 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# https://github.com/microsoft/action-psscriptanalyzer
+# For more information on PSScriptAnalyzer in general, see
+# https://github.com/PowerShell/PSScriptAnalyzer
+
+name: PSScriptAnalyzer
+
+on:
+  push:
+    branches: [ "ci" ]
+    
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Tests
+        shell: pwsh
+        run: |
+          Find-Module pester -Repository psgallery | Install-Module
+          Invoke-Pester .\all-tests.ps1
